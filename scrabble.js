@@ -6,16 +6,16 @@ var Scrabble = function() {
 
 };
 
-var Scoring = function(word) {
+var Scoring = function() {
   this.tiles = {
     "A": 1,"E": 1,"I": 1,"O": 1,"U": 1,"L": 1,"N": 1,"R": 1,"S": 1,"T": 1,
     "D": 2,"G": 2,"B": 3,"C": 3,"M": 3,"P": 3,
     "F": 4,"H": 4,"V": 4,"W": 4,"Y": 4,"K": 5,"J": 8,"X": 8,"Q": 10,"Z": 10};
-  this.word = word;
 };
 
-Scoring.prototype.score = function() {
+Scoring.prototype.score = function(word) {
   // invalidWords.push(word); // global variable?
+  this.word = word;
   var score = 0;
   for (var i=0; i<this.word.length;i++) {
     score += this.tiles[this.word[i]];
@@ -34,7 +34,7 @@ Scoring.prototype.highestScoreFrom = function(arrayOfWords) {
   this.words = arrayOfWords;
 
   for (var i=0;i<this.words.length;i++) {
-    var currentScore = new Scoring(this.words[i]).score();
+    var currentScore = new Scoring().score(this.words[i]);
     // console.log(currentScore);
     if (currentScore == maxScore) {
       maxWords.push(this.words[i]);
@@ -44,23 +44,25 @@ Scoring.prototype.highestScoreFrom = function(arrayOfWords) {
     }
   }
 
-  for (var i=0;i<maxWords.length;i++) {
-    if (maxWords[i].length < winningWord.length) {
-        winningWord = maxWords[i];
-    } else if (maxWords[i].length == 7) {
-      winningWord = maxWords[i];
+  for (var j=0;j<maxWords.length;j++) {
+    if (maxWords[j].length < winningWord.length) {
+        winningWord = maxWords[j];
+    } else if (maxWords[j].length == 7) {
+      winningWord = maxWords[j];
     }
   }
   return winningWord;
 };
 
-var my7Word = new Scoring('PIZZAZZ'); // No checks for upper case letters
-var hereIsMyScore = my7Word.score();
+var my7Word = new Scoring(); // No checks for upper case letters
+var hereIsMyScore = my7Word.score('PIZZAZZ');
 
 console.log(hereIsMyScore);
 
-var huh = new Scoring(''); // it is a bit weird to feed this with an empty string here
-var hmm = huh.highestScoreFrom(['PIZZAZZ', 'EA', 'EZY']);
+//COMMENTING FOR TROUBLESHOOTING
+var wordScoring = new Scoring(); // it is a bit weird to feed this with an empty string here
+var winWord = wordScoring.highestScoreFrom(['PIZZAZZ', 'EA', 'EZY']);
+console.log(winWord);
 
 // Scrabble.prototype.helloWorld = function() {
 //   return 'hello world!';
