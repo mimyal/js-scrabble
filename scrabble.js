@@ -1,10 +1,3 @@
-var sevenLetterBonus = 50;
-
-var Scrabble = function() {
-
-  // YOUR CODE HERE
-
-};
 
 // SCORING
 
@@ -13,6 +6,7 @@ var Scoring = function() {
     "A": 1,"E": 1,"I": 1,"O": 1,"U": 1,"L": 1,"N": 1,"R": 1,"S": 1,"T": 1,
     "D": 2,"G": 2,"B": 3,"C": 3,"M": 3,"P": 3,
     "F": 4,"H": 4,"V": 4,"W": 4,"Y": 4,"K": 5,"J": 8,"X": 8,"Q": 10,"Z": 10};
+  this.sevenLetterBonus = 50;
 };
 
 Scoring.prototype.score = function(word) {
@@ -25,7 +19,7 @@ Scoring.prototype.score = function(word) {
   if (this.word.size <7) {
       return score;
   } else {
-      return score += sevenLetterBonus;
+      return score += this.sevenLetterBonus;
   } //no check for words longer than seven
 };
 
@@ -74,6 +68,7 @@ var Player = function(name) {
   this.wordsPlayed = [];
   this.score = 0;
   this.winner = false;
+  this.tray = []; //implemented for TileBag @TODO use
 };
 
 Player.prototype.plays = function () {
@@ -139,6 +134,13 @@ cat.wordsPlayed = catWords;
 console.log(cat.name + ' played ' + cat.highestScoringWord() + ' for ' + cat.highestWordScore() + ' points.');
 
 
+// TILEBAG
 // =================
 
-module.exports = Scrabble;
+
+
+module.exports = {
+  Scoring: Scoring,
+  Player: Player,
+  TileBag: require('./tilebag')
+};
